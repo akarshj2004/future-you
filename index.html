@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Future You — 2035</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Mono:wght@300;400&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ─── Background ────────────────────────────────────── -->
+<div class="bg-layer">
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+  <div class="bg-noise"></div>
+</div>
+
+<!-- ─── Onboarding Modal ──────────────────────────────── -->
+<div class="modal-overlay" id="onboardingModal">
+  <div class="modal">
+    <div class="modal-tag">FIRST CONTACT · 2035</div>
+    <h2 class="modal-title">Before we begin,<br><em>tell me about you.</em></h2>
+    <p class="modal-sub">I need to remember who we were. Fill in what you can — even one field helps.</p>
+
+    <div class="form-fields">
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" id="goalName" placeholder="What do I call you?" autocomplete="off"/>
+      </div>
+      <div class="field">
+        <label>Career dream</label>
+        <input type="text" id="goalCareer" placeholder="e.g. software engineer, designer, founder…" autocomplete="off"/>
+      </div>
+      <div class="field">
+        <label>Fitness goal</label>
+        <input type="text" id="goalFitness" placeholder="e.g. run a marathon, lose 20 lbs…" autocomplete="off"/>
+      </div>
+      <div class="field">
+        <label>Life goal</label>
+        <input type="text" id="goalLife" placeholder="e.g. travel the world, start a family…" autocomplete="off"/>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="startBtn" onclick="submitGoals()">
+      Open the portal
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <button class="btn-ghost" onclick="skipOnboarding()">Skip for now →</button>
+  </div>
+</div>
+
+<!-- ─── App ───────────────────────────────────────────── -->
+<div class="app" id="app" style="display:none">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="signal-dot"></div>
+      <span class="signal-label">LIVE · 2035</span>
+    </div>
+    <h1 class="header-title">Future <em>You</em></h1>
+    <button class="header-reset" onclick="resetApp()" title="Start over">↺ Reset</button>
+  </header>
+
+  <!-- Tabs -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="chat" onclick="switchTab('chat', this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      Chat
+    </button>
+    <button class="tab" data-tab="letter" onclick="switchTab('letter', this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      Future Letter
+    </button>
+    <button class="tab" data-tab="day" onclick="switchTab('day', this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      Day in 2035
+    </button>
+  </nav>
+
+  <!-- ── CHAT TAB ─────────────────────────────────────── -->
+  <section class="tab-panel active" id="tab-chat">
+    <div class="chat-shell">
+      <div class="chat-history" id="chatbox">
+        <div class="msg-row ai" id="introMsg">
+          <div class="avatar-ai">✦</div>
+          <div class="bubble ai-bubble">
+            <p id="introText">Hey. It's you — from 2035.</p>
+            <p>I know it might feel strange, but I'm here. Ask me anything — about your path, your doubts, your dreams. I remember being exactly where you are right now.</p>
+            <span class="ts" id="introTs"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="typing-row" id="typingRow">
+        <div class="avatar-ai small">✦</div>
+        <div class="typing-pill">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="typing-label">Future you is thinking…</span>
+      </div>
+
+      <div class="input-bar">
+        <input type="text" id="userInput" placeholder="Ask your future self…" autocomplete="off"/>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LETTER TAB ───────────────────────────────────── -->
+  <section class="tab-panel" id="tab-letter">
+    <div class="feature-panel">
+      <div class="feature-header">
+        <h2>Letter from <em>2035</em></h2>
+        <p>A personal letter from your future self — written just for you, right now.</p>
+      </div>
+      <button class="btn-primary wide" id="letterBtn" onclick="generateLetter()">
+        Generate my letter
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+      </button>
+      <div class="letter-output" id="letterOutput" style="display:none">
+        <div class="letter-paper" id="letterContent"></div>
+        <button class="btn-ghost slim" onclick="copyLetter()">Copy letter ↗</button>
+      </div>
+      <div class="feature-loading" id="letterLoading" style="display:none">
+        <div class="spinner"></div>
+        <span>Writing your letter from 2035…</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DAY TAB ──────────────────────────────────────── -->
+  <section class="tab-panel" id="tab-day">
+    <div class="feature-panel">
+      <div class="feature-header">
+        <h2>A day in your life — <em>2035</em></h2>
+        <p>Step into a vivid simulation of your future day, built around your goals.</p>
+      </div>
+      <button class="btn-primary wide" id="dayBtn" onclick="generateDay()">
+        Show me my future day
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <div class="day-output" id="dayOutput" style="display:none">
+        <div class="day-content" id="dayContent"></div>
+        <button class="btn-ghost slim" onclick="copyDay()">Copy simulation ↗</button>
+      </div>
+      <div class="feature-loading" id="dayLoading" style="display:none">
+        <div class="spinner"></div>
+        <span>Simulating your day in 2035…</span>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /app -->
+
+<script src="script.js"></script>
+</body>
+</html>
