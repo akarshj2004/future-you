@@ -33,7 +33,7 @@ def call_grok(messages, system=None):
     all_messages.extend(messages)
 
     body = {
-        "model": "grok-3-mini",
+        "model": "grok-2",
         "messages": all_messages,
         "max_tokens": 600
     }
