@@ -7,7 +7,7 @@ load_dotenv()
 
 GROK_API_KEY = os.getenv("GROK_API_KEY", "")
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=".", static_url_path="")
 app.secret_key = os.getenv("SECRET_KEY", "future-you-secret-2035")
 
 
@@ -33,7 +33,7 @@ def call_grok(messages, system=None):
     all_messages.extend(messages)
 
     body = {
-        "model": "grok-3-mini",
+        "model": "grok-4-latest",
         "messages": all_messages,
         "max_tokens": 600
     }
